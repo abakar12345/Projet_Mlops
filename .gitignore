@@ -1,0 +1,25 @@
+# Environnement virtuel
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# Pytest
+.pytest_cache/
+
+# Data (trop lourd pour GitHub)
+data/
+
+# Artefacts ML (optionnel - à toi de décider)
+src/mlops_tp/artifacts/model.joblib
+
+# Reports
+reports/
+
+# Divers
+commande.txt
+.DS_Store
+.venv311/

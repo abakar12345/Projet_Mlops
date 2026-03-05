@@ -1,0 +1,113 @@
+{
+    "features_originales": {
+        "CreditScore": {
+            "type": "int",
+            "description": "Score de crédit du client"
+        },
+        "Gender": {
+            "type": "str",
+            "categories": [
+                "Male",
+                "Female"
+            ]
+        },
+        "Age": {
+            "type": "int",
+            "description": "Âge du client"
+        },
+        "Tenure": {
+            "type": "int",
+            "description": "Années en tant que client"
+        },
+        "Balance": {
+            "type": "float",
+            "description": "Solde bancaire"
+        },
+        "NumOfProducts": {
+            "type": "int",
+            "description": "Nombre de produits souscrits"
+        },
+        "HasCrCard": {
+            "type": "int",
+            "categories": [
+                0,
+                1
+            ]
+        },
+        "IsActiveMember": {
+            "type": "int",
+            "categories": [
+                0,
+                1
+            ]
+        },
+        "EstimatedSalary": {
+            "type": "float",
+            "description": "Salaire estimé"
+        },
+        "Satisfaction Score": {
+            "type": "int",
+            "range": [
+                1,
+                5
+            ]
+        },
+        "Point Earned": {
+            "type": "int",
+            "description": "Points de fidélité"
+        },
+        "Geography": {
+            "type": "str",
+            "categories": [
+                "France",
+                "Germany",
+                "Spain"
+            ]
+        },
+        "Card Type": {
+            "type": "str",
+            "categories": [
+                "DIAMOND",
+                "GOLD",
+                "PLATINUM",
+                "SILVER"
+            ]
+        }
+    },
+    "features_apres_encodage": [
+        "CreditScore",
+        "Gender",
+        "Age",
+        "Tenure",
+        "Balance",
+        "NumOfProducts",
+        "HasCrCard",
+        "IsActiveMember",
+        "EstimatedSalary",
+        "Satisfaction Score",
+        "Point Earned",
+        "Geography_France",
+        "Geography_Germany",
+        "Geography_Spain",
+        "Card Type_DIAMOND",
+        "Card Type_GOLD",
+        "Card Type_PLATINUM",
+        "Card Type_SILVER"
+    ],
+    "cible": {
+        "Exited": {
+            "type": "int",
+            "categories": {
+                "0": "Reste",
+                "1": "Quitte"
+            }
+        }
+    },
+    "features_exclues": [
+        "Complain",
+        "RowNumber",
+        "CustomerId",
+        "Surname"
+    ],
+    "n_features": 18
+}
