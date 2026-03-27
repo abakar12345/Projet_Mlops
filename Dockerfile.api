@@ -2,16 +2,20 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Copier les dépendances
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copier le code source et les artefacts
 COPY src/ ./src/
+COPY data/ ./data/
 COPY conftest.py .
 
-# Exposer le port FastAPI
+# Copie les artefacts générés par train.py
+COPY src/mlops_tp/artifacts/ ./artifacts/
+
+ENV PYTHONPATH=/app/src
+ENV PORT=8000
+ENV GIT_PYTHON_REFRESH=quiet
+
 EXPOSE 8000
 
-# Lancer l'API
-CMD ["uvicorn", "mlops_tp.api:app", "--host", "0.0.0.0", "--port", "8000", "--app-dir", "src"]
+CMD ["sh", "-c", "uvicorn mlops_tp.api:app --host 0.0.0.0 --port ${PORT}"]

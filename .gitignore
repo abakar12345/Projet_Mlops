@@ -1,5 +1,6 @@
 # Environnement virtuel
 .venv/
+.venv311/
 
 # Python
 __pycache__/
@@ -10,16 +11,28 @@ __pycache__/
 # Pytest
 .pytest_cache/
 
-# Data (trop lourd pour GitHub)
-data/
+# Variables d'environnement — NE JAMAIS commiter
+.env
+.env.*
 
-# Artefacts ML (optionnel - à toi de décider)
-src/mlops_tp/artifacts/model.joblib
+# Artefacts ML — générés au runtime, pas à versionner
+src/mlops_tp/artifacts/
+
+# MLflow local
+mlruns/
+mlartifacts/
 
 # Reports
 reports/
 
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+
 # Divers
 commande.txt
 .DS_Store
-.venv311/
+mlflow.db

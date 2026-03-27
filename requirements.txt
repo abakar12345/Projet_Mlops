@@ -3,6 +3,8 @@ joblib
 numpy
 pandas
 plotly
+seaborn
+matplotlib
 pydantic
 pytest
 requests
@@ -10,4 +12,4 @@ scikit-learn
 streamlit
 uvicorn
 httpx
-# Note: ydata-profiling requiert Python 3.11 → voir requirements-yda.txt
+mlflow==2.13.0

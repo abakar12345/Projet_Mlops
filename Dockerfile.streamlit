@@ -10,7 +10,9 @@ COPY data/ ./data/
 COPY src/ ./src/
 COPY reports/ ./reports/
 
+ENV PORT=8501
+ENV PYTHONPATH=/app/src
+
 EXPOSE 8501
 
-CMD ["streamlit", "run", "app_streamlit.py", "--server.port=8501", "--server.address=0.0.0.0"]
-
+CMD ["sh", "-c", "streamlit run app_streamlit.py --server.port=${PORT} --server.address=0.0.0.0"]
