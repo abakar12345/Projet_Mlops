@@ -17,7 +17,9 @@ from src.mlops_tp.config import (
 # CONFIG
 st.set_page_config(page_title="Churn Dashboard", layout="wide")
 
-API_URL     = "http://churn-api:8000"
+import os
+API_URL = os.getenv("API_URL", "http://churn-api:8000")
+
 DATA_PATH   = DATASET_PATH
 ARTIFACTS   = ARTIFACTS_DIR
 REPORT_PATH = REPORTS_DIR / "eda_report.html"
