@@ -9,14 +9,6 @@ from datetime import datetime
 from pathlib import Path
 
 
-@app.get("/")
-def root():
-    return {
-        "message": "Churn Prediction API is running",
-        "docs": "/docs",
-        "health": "/health"
-    }
-
 # ============================================================
 # CHEMINS
 # ============================================================
