@@ -9,6 +9,14 @@ from datetime import datetime
 from pathlib import Path
 
 
+@app.get("/")
+def root():
+    return {
+        "message": "Churn Prediction API is running",
+        "docs": "/docs",
+        "health": "/health"
+    }
+
 # ============================================================
 # CHEMINS
 # ============================================================
@@ -185,7 +193,13 @@ def health():
         "version":      "0.1.0"
     }
 
-
+@app.get("/")
+def root():
+    return {
+        "message": "Churn Prediction API is running",
+        "docs": "/docs",
+        "health": "/health"
+    }
 # ============================================================
 # GET /metadata
 # ============================================================
