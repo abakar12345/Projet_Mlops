@@ -15,8 +15,6 @@ __pycache__/
 .env
 .env.*
 
-# Artefacts ML — générés au runtime, pas à versionner
-src/mlops_tp/artifacts/
 
 # MLflow local
 mlruns/

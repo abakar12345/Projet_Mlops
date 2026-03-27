@@ -1,0 +1,20 @@
+{
+    "runs": [
+        {
+            "model": "RandomForestClassifier",
+            "timestamp": "2026-03-26T17:04:39.912980",
+            "hyperparameters": {
+                "n_estimators": 100,
+                "max_depth": 10,
+                "random_state": 42,
+                "class_weight": "balanced"
+            },
+            "metrics": {
+                "accuracy": 0.8427,
+                "f1_score": 0.623,
+                "roc_auc": 0.8683
+            },
+            "dataset_split": "validation"
+        }
+    ]
+}

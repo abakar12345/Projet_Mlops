@@ -1,0 +1,14 @@
+{
+    "dataset": "Customer-Churn-Records.csv",
+    "shape": {
+        "lignes": 10000,
+        "colonnes": 15
+    },
+    "cible": "Exited",
+    "split": {
+        "train": "70.0%",
+        "validation": "15.0%",
+        "test": "15.0%"
+    },
+    "random_state": 42
+}
