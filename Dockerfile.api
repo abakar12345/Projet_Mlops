@@ -12,6 +12,7 @@ COPY conftest.py .
 # Copie les artefacts générés par train.py
 COPY src/mlops_tp/artifacts/ ./artifacts/
 
+
 ENV PYTHONPATH=/app/src
 ENV PORT=8000
 ENV GIT_PYTHON_REFRESH=quiet

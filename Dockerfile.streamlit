@@ -9,6 +9,7 @@ COPY app_streamlit.py .
 COPY data/ ./data/
 COPY src/ ./src/
 COPY reports/ ./reports/
+COPY src/mlops_tp/artifacts/ ./artifacts/   
 
 ENV PORT=8501
 ENV PYTHONPATH=/app/src
