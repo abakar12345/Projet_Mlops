@@ -1,0 +1,46 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  tests:
+    name: Tests Python
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v3
+
+      - name: Installer Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Installer les dépendances
+        run: pip install -r requirements.txt
+
+      - name: Lancer les tests
+        env:
+          PYTHONPATH: src
+          MLFLOW_TRACKING_URI: http://localhost:5000
+          ARTIFACTS_DIR: src/mlops_tp/artifacts
+        run: pytest tests/ -v --tb=short
+
+  docker:
+    name: Build Docker
+    runs-on: ubuntu-latest
+    needs: tests
+
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v3
+
+      - name: Build image API
+        run: docker build -f Dockerfile.api -t churn-api .
+
+      - name: Build image Streamlit
+        run: docker build -f Dockerfile.streamlit -t churn-streamlit .
