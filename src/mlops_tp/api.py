@@ -7,7 +7,7 @@ import json
 import time
 from datetime import datetime
 from pathlib import Path
-
+from fastapi.responses import HTMLResponse
 
 # ============================================================
 # CHEMINS
@@ -223,6 +223,204 @@ def metadata():
 def get_schema():
     """Retourne le schéma complet des features (utile pour le frontend Streamlit)."""
     return schema
+
+
+# ============================================================
+# GET /predict — Formulaire HTML
+# ============================================================
+@app.get("/predict", response_class=HTMLResponse)
+def predict_form():
+    return """
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Churn Prediction</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #f4f6f9; display: flex; justify-content: center; padding: 40px 20px; }
+        .container { background: white; padding: 36px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); width: 100%; max-width: 700px; }
+        h1 { font-size: 22px; color: #1a1a2e; margin-bottom: 6px; }
+        p.subtitle { color: #666; font-size: 13px; margin-bottom: 28px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .field { display: flex; flex-direction: column; gap: 5px; }
+        label { font-size: 13px; font-weight: 600; color: #333; }
+        input, select { padding: 9px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; width: 100%; }
+        input:focus, select:focus { outline: none; border-color: #4a90e2; }
+        button { margin-top: 24px; width: 100%; padding: 13px; background: #4a90e2; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        button:hover { background: #357abd; }
+        #result { margin-top: 24px; padding: 20px; border-radius: 8px; display: none; }
+        .result-yes { background: #fdecea; border: 1px solid #e74c3c; }
+        .result-no  { background: #eafaf1; border: 1px solid #2ecc71; }
+        .result-title { font-size: 18px; font-weight: bold; margin-bottom: 10px; }
+        .result-yes .result-title { color: #e74c3c; }
+        .result-no  .result-title { color: #27ae60; }
+        .proba-bar { background: #eee; border-radius: 4px; height: 10px; margin: 6px 0 12px; }
+        .proba-fill { height: 10px; border-radius: 4px; }
+        .proba-fill-yes { background: #e74c3c; }
+        .proba-fill-no  { background: #2ecc71; }
+        .meta { font-size: 12px; color: #888; margin-top: 8px; }
+        .loading { text-align: center; color: #888; margin-top: 20px; display: none; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Churn Prediction</h1>
+    <p class="subtitle">Renseignez les informations du client pour prédire s'il va quitter la banque.</p>
+
+    <form id="predictForm">
+        <div class="grid">
+            <div class="field">
+                <label>Credit Score</label>
+                <input type="number" name="CreditScore" value="650" min="300" max="850" required>
+            </div>
+            <div class="field">
+                <label>Âge</label>
+                <input type="number" name="Age" value="35" min="18" max="92" required>
+            </div>
+            <div class="field">
+                <label>Genre</label>
+                <select name="Gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>Géographie</label>
+                <select name="Geography">
+                    <option value="France">France</option>
+                    <option value="Germany">Germany</option>
+                    <option value="Spain">Spain</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>Ancienneté (années)</label>
+                <input type="number" name="Tenure" value="5" min="0" max="10" required>
+            </div>
+            <div class="field">
+                <label>Solde (Balance)</label>
+                <input type="number" name="Balance" value="60000" step="0.01" required>
+            </div>
+            <div class="field">
+                <label>Nombre de produits</label>
+                <select name="NumOfProducts">
+                    <option value="1">1</option>
+                    <option value="2" selected>2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>Salaire estimé</label>
+                <input type="number" name="EstimatedSalary" value="50000" step="0.01" required>
+            </div>
+            <div class="field">
+                <label>A une carte de crédit ?</label>
+                <select name="HasCrCard">
+                    <option value="1">Oui</option>
+                    <option value="0">Non</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>Membre actif ?</label>
+                <select name="IsActiveMember">
+                    <option value="1">Oui</option>
+                    <option value="0">Non</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>Score de satisfaction (1-5)</label>
+                <input type="number" name="Satisfaction Score" value="3" min="1" max="5" required>
+            </div>
+            <div class="field">
+                <label>Points gagnés</label>
+                <input type="number" name="Point Earned" value="400" min="0" max="1000" required>
+            </div>
+            <div class="field">
+                <label>Type de carte</label>
+                <select name="Card Type">
+                    <option value="GOLD">GOLD</option>
+                    <option value="SILVER">SILVER</option>
+                    <option value="PLATINUM">PLATINUM</option>
+                    <option value="DIAMOND">DIAMOND</option>
+                </select>
+            </div>
+        </div>
+
+        <button type="submit">Prédire</button>
+    </form>
+
+    <div class="loading" id="loading">Analyse en cours...</div>
+
+    <div id="result"></div>
+</div>
+
+<script>
+document.getElementById('predictForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const loading = document.getElementById('loading');
+    const result  = document.getElementById('result');
+
+    loading.style.display = 'block';
+    result.style.display  = 'none';
+
+    const intFields   = ['CreditScore', 'Age', 'Tenure', 'NumOfProducts', 'HasCrCard', 'IsActiveMember', 'Satisfaction Score', 'Point Earned'];
+    const floatFields = ['Balance', 'EstimatedSalary'];
+
+    const features = {};
+    new FormData(form).forEach((val, key) => {
+        if (intFields.includes(key))        features[key] = parseInt(val);
+        else if (floatFields.includes(key)) features[key] = parseFloat(val);
+        else                                features[key] = val;
+    });
+
+    try {
+        const response = await fetch('/predict', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ features })
+        });
+
+        const data = await response.json();
+        loading.style.display = 'none';
+
+        if (!response.ok) {
+            result.className = '';
+            result.style.display = 'block';
+            result.style.background = '#fff3cd';
+            result.style.border = '1px solid #ffc107';
+            result.innerHTML = '<strong>Erreur :</strong> ' + (data.detail || 'Erreur inconnue');
+            return;
+        }
+
+        const isChurn   = data.prediction === 'yes';
+        const probaChurn = Math.round(data.proba.yes * 100);
+        const probaReste = Math.round(data.proba.no  * 100);
+
+        result.className = isChurn ? 'result-yes' : 'result-no';
+        result.style.display = 'block';
+        result.innerHTML = `
+            <div class="result-title">
+                ${isChurn ? '⚠️ Ce client risque de quitter la banque' : '✅ Ce client va probablement rester'}
+            </div>
+            <div>Probabilité de churn : <strong>${probaChurn}%</strong></div>
+            <div class="proba-bar"><div class="proba-fill proba-fill-yes" style="width:${probaChurn}%"></div></div>
+            <div>Probabilité de rester : <strong>${probaReste}%</strong></div>
+            <div class="proba-bar"><div class="proba-fill proba-fill-no" style="width:${probaReste}%"></div></div>
+            <div class="meta">Latence : ${data.latency_ms} ms &nbsp;|&nbsp; Modèle : ${data.model_version}</div>
+        `;
+    } catch(err) {
+        loading.style.display = 'none';
+        result.style.display = 'block';
+        result.innerHTML = '<strong>Erreur réseau</strong>';
+    }
+});
+</script>
+</body>
+</html>
+"""
 
 
 # ============================================================
