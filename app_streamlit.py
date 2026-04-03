@@ -29,125 +29,109 @@ REPORT_PATH = REPORTS_DIR / "eda_report.html"
 # ── STYLE GLOBAL ──────────────────────────────────────────
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 html, body, [class*="css"] {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Sora', sans-serif;
 }
 
-/* Fond général */
 .stApp {
-    background: #0d0f14;
-    color: #e8eaf0;
+    background: #f5f6fa;
+    color: #1a1d2e;
 }
 
-/* Sidebar */
 section[data-testid="stSidebar"] {
-    background: #13161e;
-    border-right: 1px solid #1e2230;
+    background: #1a2744;
+    border-right: none;
 }
 section[data-testid="stSidebar"] * {
-    color: #c8cad4 !important;
+    color: #c8d4f0 !important;
+}
+section[data-testid="stSidebar"] hr {
+    border-color: #243158 !important;
 }
 
-/* Titres */
-h1 { font-size: 28px !important; font-weight: 600 !important; color: #f0f2f8 !important; letter-spacing: -0.5px; }
-h2 { font-size: 18px !important; font-weight: 500 !important; color: #a0a4b8 !important; }
-h3 { font-size: 15px !important; font-weight: 500 !important; color: #8085a0 !important; }
+h1 { font-size: 26px !important; font-weight: 700 !important; color: #1a1d2e !important; letter-spacing: -0.5px; }
+h2 { font-size: 17px !important; font-weight: 500 !important; color: #5a6080 !important; }
+h3 { font-size: 14px !important; font-weight: 500 !important; color: #7a80a0 !important; }
 
-/* Cards KPI */
 .kpi-card {
-    background: #13161e;
-    border: 1px solid #1e2230;
-    border-radius: 12px;
-    padding: 20px 24px;
+    background: white;
+    border: 1px solid #e8eaf2;
+    border-top: 3px solid #1a3a8f;
+    border-radius: 10px;
+    padding: 22px 20px;
     text-align: center;
+    box-shadow: 0 2px 8px rgba(26,58,143,0.06);
 }
 .kpi-value {
-    font-size: 32px;
-    font-weight: 600;
-    color: #4fc3f7;
-    font-family: 'DM Mono', monospace;
+    font-size: 30px;
+    font-weight: 700;
+    color: #1a3a8f;
+    font-family: 'JetBrains Mono', monospace;
 }
 .kpi-label {
-    font-size: 12px;
-    color: #606480;
+    font-size: 11px;
+    color: #9095b0;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-top: 4px;
+    letter-spacing: 1.2px;
+    margin-top: 6px;
 }
 
-/* Bouton predict */
 div.stButton > button {
-    background: linear-gradient(135deg, #1565c0, #0d47a1);
+    background: #1a3a8f;
     color: white;
     border: none;
     border-radius: 8px;
     padding: 12px 32px;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     width: 100%;
-    letter-spacing: 0.3px;
-    transition: opacity 0.2s;
+    letter-spacing: 0.5px;
+    transition: background 0.2s;
 }
-div.stButton > button:hover { opacity: 0.85; }
+div.stButton > button:hover { background: #142d72; }
 
-/* Résultat churn */
 .result-churn {
-    background: #1a0a0a;
-    border: 1px solid #c62828;
-    border-left: 4px solid #ef5350;
+    background: #fff5f5;
+    border: 1px solid #fca5a5;
+    border-left: 4px solid #dc2626;
     border-radius: 10px;
     padding: 20px 24px;
     margin-top: 20px;
 }
 .result-safe {
-    background: #071a0f;
-    border: 1px solid #1b5e20;
-    border-left: 4px solid #66bb6a;
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-left: 4px solid #16a34a;
     border-radius: 10px;
     padding: 20px 24px;
     margin-top: 20px;
 }
 .result-title {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
+    color: #1a1d2e;
 }
 .result-sub {
-    font-size: 13px;
-    color: #8085a0;
-    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: #7a80a0;
+    font-family: 'JetBrains Mono', monospace;
 }
 
-/* Inputs */
-.stSlider > div, .stNumberInput, .stSelectbox {
-    background: transparent !important;
-}
-input, select {
-    background: #13161e !important;
-    color: #e8eaf0 !important;
-    border-color: #1e2230 !important;
-}
+.stDataFrame { border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
 
-/* Dataframe */
-.stDataFrame { border-radius: 10px; overflow: hidden; }
+hr { border-color: #e8eaf2 !important; }
 
-/* Séparateur */
-hr { border-color: #1e2230 !important; }
-
-/* Radio sidebar */
 div[role="radiogroup"] label {
-    padding: 8px 12px;
+    padding: 8px 14px;
     border-radius: 8px;
-    margin-bottom: 2px;
+    margin-bottom: 3px;
+    color: #a0b0d0 !important;
     transition: background 0.15s;
 }
-div[role="radiogroup"] label:hover { background: #1e2230; }
-
-/* Success / error */
-.stSuccess { background: #071a0f !important; border-color: #1b5e20 !important; }
-.stError   { background: #1a0a0a !important; border-color: #c62828 !important; }
+div[role="radiogroup"] label:hover { background: #243158; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -184,7 +168,7 @@ with st.sidebar:
     ], label_visibility="collapsed")
     st.markdown("<hr>", unsafe_allow_html=True)
     st.markdown("""
-    <div style='font-size:11px; color:#404460; line-height:1.8;'>
+    <div style='font-size:11px; color:#7a90c0; line-height:1.8;'>
     Modèle : RandomForest<br>
     Dataset : 10 000 clients<br>
     Tâche : Classification binaire
@@ -200,7 +184,6 @@ if page == "Vue générale":
     st.markdown("### Dataset — Customer Churn Records")
     st.markdown("<hr>", unsafe_allow_html=True)
 
-    # KPIs
     churn_rate = df['Exited'].mean() * 100
     col1, col2, col3, col4 = st.columns(4)
     kpis = [
@@ -222,44 +205,36 @@ if page == "Vue générale":
     col_left, col_right = st.columns([1.4, 1])
     with col_left:
         st.markdown("#### Aperçu des données")
-        st.dataframe(
-            df.head(8),
-            use_container_width=True,
-            hide_index=True
-        )
+        st.dataframe(df.head(8), use_container_width=True, hide_index=True)
     with col_right:
         churn_counts = df['Exited'].value_counts().reset_index()
         churn_counts.columns = ['Exited', 'Count']
         churn_counts['Label'] = churn_counts['Exited'].map({0: 'Reste', 1: 'Quitte'})
         fig = px.pie(
             churn_counts, values='Count', names='Label',
-            color_discrete_sequence=['#1565c0', '#ef5350'],
+            color_discrete_sequence=['#1a3a8f', '#dc2626'],
             hole=0.55
         )
         fig.update_layout(
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)',
-            font_color='#a0a4b8',
-            legend=dict(font=dict(color='#a0a4b8')),
+            font_color='#5a6080',
+            legend=dict(font=dict(color='#5a6080')),
             margin=dict(t=20, b=20)
         )
         fig.update_traces(textfont_color='white')
         st.plotly_chart(fig, use_container_width=True)
 
-    # Distribution Age et Balance
     st.markdown("#### Distributions clés")
     c1, c2 = st.columns(2)
-    for col, var, color in [(c1, 'Age', '#1565c0'), (c2, 'Balance', '#ef5350')]:
-        fig = px.histogram(
-            df, x=var, nbins=40,
-            color_discrete_sequence=[color]
-        )
+    for col, var, color in [(c1, 'Age', '#1a3a8f'), (c2, 'Balance', '#dc2626')]:
+        fig = px.histogram(df, x=var, nbins=40, color_discrete_sequence=[color])
         fig.update_layout(
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)',
-            font_color='#a0a4b8',
-            xaxis=dict(gridcolor='#1e2230'),
-            yaxis=dict(gridcolor='#1e2230'),
+            font_color='#5a6080',
+            xaxis=dict(gridcolor='#e8eaf2'),
+            yaxis=dict(gridcolor='#e8eaf2'),
             margin=dict(t=10, b=10),
             showlegend=False
         )
@@ -274,9 +249,9 @@ elif page == "Métriques du modèle":
     st.markdown("<hr>", unsafe_allow_html=True)
 
     last_run = metrics["runs"][-1]
-    acc  = last_run["metrics"]["accuracy"]
-    f1   = last_run["metrics"]["f1_score"]
-    auc  = last_run["metrics"]["roc_auc"]
+    acc = last_run["metrics"]["accuracy"]
+    f1  = last_run["metrics"]["f1_score"]
+    auc = last_run["metrics"]["roc_auc"]
 
     col1, col2, col3 = st.columns(3)
     for col, val, label in [
@@ -293,26 +268,25 @@ elif page == "Métriques du modèle":
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # Gauge ROC-AUC
     col_gauge, col_info = st.columns([1, 1])
     with col_gauge:
         fig = go.Figure(go.Indicator(
             mode="gauge+number",
             value=auc,
-            number={'font': {'color': '#4fc3f7', 'size': 48}},
-            title={'text': "ROC-AUC", 'font': {'color': '#a0a4b8', 'size': 14}},
+            number={'font': {'color': '#1a3a8f', 'size': 48}},
+            title={'text': "ROC-AUC", 'font': {'color': '#5a6080', 'size': 14}},
             gauge={
-                'axis': {'range': [0, 1], 'tickcolor': '#404460'},
-                'bar': {'color': '#1565c0'},
-                'bgcolor': '#13161e',
-                'bordercolor': '#1e2230',
+                'axis': {'range': [0, 1], 'tickcolor': '#9095b0'},
+                'bar': {'color': '#1a3a8f'},
+                'bgcolor': '#f5f6fa',
+                'bordercolor': '#e8eaf2',
                 'steps': [
-                    {'range': [0, 0.7],    'color': '#1a0a0a'},
-                    {'range': [0.7, 0.85], 'color': '#1a1200'},
-                    {'range': [0.85, 1],   'color': '#071a0f'}
+                    {'range': [0, 0.7],    'color': '#fff0f0'},
+                    {'range': [0.7, 0.85], 'color': '#fffbea'},
+                    {'range': [0.85, 1],   'color': '#f0fdf4'}
                 ],
                 'threshold': {
-                    'line': {'color': '#4fc3f7', 'width': 2},
+                    'line': {'color': '#1a3a8f', 'width': 2},
                     'thickness': 0.75,
                     'value': auc
                 }
@@ -320,7 +294,7 @@ elif page == "Métriques du modèle":
         ))
         fig.update_layout(
             paper_bgcolor='rgba(0,0,0,0)',
-            font_color='#a0a4b8',
+            font_color='#5a6080',
             height=280,
             margin=dict(t=20, b=10)
         )
@@ -330,12 +304,15 @@ elif page == "Métriques du modèle":
         st.markdown("#### Détails du run")
         hp = last_run.get("hyperparameters", {})
         st.markdown(f"""
-        <div style='background:#13161e; border:1px solid #1e2230; border-radius:10px; padding:20px; font-family: DM Mono, monospace; font-size:13px; line-height:2; color:#a0a4b8;'>
-        <b style='color:#4fc3f7'>Modèle</b> &nbsp;&nbsp;&nbsp; RandomForestClassifier<br>
-        <b style='color:#4fc3f7'>n_estimators</b> &nbsp; {hp.get('n_estimators', 100)}<br>
-        <b style='color:#4fc3f7'>max_depth</b> &nbsp;&nbsp;&nbsp; {hp.get('max_depth', 10)}<br>
-        <b style='color:#4fc3f7'>class_weight</b> &nbsp; {hp.get('class_weight', 'balanced')}<br>
-        <b style='color:#4fc3f7'>Timestamp</b> &nbsp;&nbsp;&nbsp; {last_run.get('timestamp', 'N/A')[:19]}
+        <div style='background:white; border:1px solid #e8eaf2; border-radius:10px;
+                    padding:24px; font-family: JetBrains Mono, monospace;
+                    font-size:13px; line-height:2.2; color:#5a6080;
+                    box-shadow: 0 2px 8px rgba(26,58,143,0.06);'>
+        <b style='color:#1a3a8f'>Modèle</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RandomForestClassifier<br>
+        <b style='color:#1a3a8f'>n_estimators</b> &nbsp; {hp.get('n_estimators', 100)}<br>
+        <b style='color:#1a3a8f'>max_depth</b> &nbsp;&nbsp;&nbsp;&nbsp; {hp.get('max_depth', 10)}<br>
+        <b style='color:#1a3a8f'>class_weight</b> &nbsp; {hp.get('class_weight', 'balanced')}<br>
+        <b style='color:#1a3a8f'>Timestamp</b> &nbsp;&nbsp;&nbsp;&nbsp; {last_run.get('timestamp', 'N/A')[:19]}
         </div>
         """, unsafe_allow_html=True)
 
@@ -347,21 +324,23 @@ elif page == "Prédiction live":
     st.markdown("# Prédiction live")
     st.markdown("<hr>", unsafe_allow_html=True)
 
-    # Statut API
     try:
         health = requests.get(f"{API_URL}/health", timeout=3).json()
-        status_color = "#66bb6a" if health.get("model_loaded") else "#ffa726"
+        status_color = "#16a34a" if health.get("model_loaded") else "#f59e0b"
         st.markdown(f"""
-        <div style='display:flex; align-items:center; gap:10px; margin-bottom:20px;'>
-            <div style='width:10px; height:10px; border-radius:50%; background:{status_color};'></div>
-            <span style='font-size:13px; color:#a0a4b8;'>API connectée — modèle chargé : {health.get("model_loaded")}</span>
+        <div style='display:flex; align-items:center; gap:10px; margin-bottom:20px;
+                    background:white; border:1px solid #e8eaf2; border-radius:8px;
+                    padding:12px 18px; box-shadow:0 1px 4px rgba(0,0,0,0.05);'>
+            <div style='width:9px; height:9px; border-radius:50%; background:{status_color};'></div>
+            <span style='font-size:13px; color:#5a6080;'>
+                API connectée — modèle chargé : {health.get("model_loaded")}
+            </span>
         </div>
         """, unsafe_allow_html=True)
     except:
         st.error("API hors ligne")
         st.stop()
 
-    # Formulaire
     col1, col2, col3 = st.columns(3)
     with col1:
         st.markdown("**Profil client**")
@@ -372,10 +351,10 @@ elif page == "Prédiction live":
 
     with col2:
         st.markdown("**Finances**")
-        balance  = st.number_input("Solde (€)", 0.0, 300000.0, 65000.0, step=1000.0)
-        salary   = st.number_input("Salaire estimé (€)", 0.0, 200000.0, 55000.0, step=1000.0)
+        balance      = st.number_input("Solde (€)", 0.0, 300000.0, 65000.0, step=1000.0)
+        salary       = st.number_input("Salaire estimé (€)", 0.0, 200000.0, 55000.0, step=1000.0)
         satisfaction = st.slider("Score de satisfaction", 1, 5, 3)
-        points   = st.number_input("Points fidélité", 0, 1000, 420)
+        points       = st.number_input("Points fidélité", 0, 1000, 420)
 
     with col3:
         st.markdown("**Informations**")
@@ -420,11 +399,10 @@ elif page == "Prédiction live":
         is_churn    = data["prediction"] == "yes"
         proba_churn = data["proba"]["yes"] * 100
         proba_reste = data["proba"]["no"]  * 100
-
         css_class   = "result-churn" if is_churn else "result-safe"
         icon        = "⚠️" if is_churn else "✅"
         verdict     = "Ce client risque de quitter la banque" if is_churn else "Ce client va probablement rester"
-        color       = "#ef5350" if is_churn else "#66bb6a"
+        color       = "#dc2626" if is_churn else "#16a34a"
 
         st.markdown(f"""
         <div class="{css_class}">
@@ -439,24 +417,23 @@ elif page == "Prédiction live":
 
         st.markdown("<br>", unsafe_allow_html=True)
 
-        # Gauge
         fig = go.Figure(go.Indicator(
             mode="gauge+number",
             value=proba_churn,
             number={'suffix': '%', 'font': {'color': color, 'size': 44}},
-            title={'text': "Probabilité de churn", 'font': {'color': '#a0a4b8', 'size': 13}},
+            title={'text': "Probabilité de churn", 'font': {'color': '#5a6080', 'size': 13}},
             gauge={
-                'axis': {'range': [0, 100], 'tickcolor': '#404460'},
+                'axis': {'range': [0, 100], 'tickcolor': '#9095b0'},
                 'bar': {'color': color},
-                'bgcolor': '#13161e',
-                'bordercolor': '#1e2230',
+                'bgcolor': '#f5f6fa',
+                'bordercolor': '#e8eaf2',
                 'steps': [
-                    {'range': [0,  40],  'color': '#071a0f'},
-                    {'range': [40, 70],  'color': '#1a1200'},
-                    {'range': [70, 100], 'color': '#1a0a0a'}
+                    {'range': [0,  40],  'color': '#f0fdf4'},
+                    {'range': [40, 70],  'color': '#fffbea'},
+                    {'range': [70, 100], 'color': '#fff5f5'}
                 ],
                 'threshold': {
-                    'line': {'color': 'white', 'width': 2},
+                    'line': {'color': '#1a1d2e', 'width': 2},
                     'thickness': 0.75,
                     'value': 50
                 }
@@ -464,7 +441,7 @@ elif page == "Prédiction live":
         ))
         fig.update_layout(
             paper_bgcolor='rgba(0,0,0,0)',
-            font_color='#a0a4b8',
+            font_color='#5a6080',
             height=260,
             margin=dict(t=10, b=10)
         )
