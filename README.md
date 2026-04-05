@@ -19,9 +19,6 @@ Le dataset est déséquilibré (~80% / 20%), ce qui justifie l'utilisation du
 
 ## Structure du projet
 ```
-Voici une version épurée pour le README — sans les `__pycache__`, mlartifacts, postman et fichiers générés :
-
-```
 TP_MLOps/
 ├── data/
 │   └── Customer-Churn-Records.csv
