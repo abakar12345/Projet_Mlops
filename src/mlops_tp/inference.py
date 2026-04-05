@@ -7,9 +7,9 @@ import joblib
 from .config import MODEL_PATH, FEATURE_SCHEMA_PATH
 
 
-# ---------------------------------------------------------------------------
-# Chargement du pipeline (lazy, mis en cache au premier appel)
-# ---------------------------------------------------------------------------
+
+# Chargement du pipeline 
+
 
 _pipeline = None
 
@@ -30,9 +30,8 @@ def load_feature_schema() -> dict:
         return json.load(f)
 
 
-# ---------------------------------------------------------------------------
 # Prétraitement - reproduit exactement la logique de train.py
-# ---------------------------------------------------------------------------
+
 
 def preprocess(data: pd.DataFrame) -> np.ndarray:
     """
@@ -68,7 +67,7 @@ def preprocess(data: pd.DataFrame) -> np.ndarray:
     # 3. One-Hot Encoding Geography + Card Type
     df = pd.get_dummies(df, columns=['Geography', 'Card Type'], drop_first=False)
 
-    # 4. Réindexation — garantit l'ordre et les colonnes identiques au train
+    # 4. Réindexation 
     feature_columns = pipeline["feature_columns"]
     df = df.reindex(columns=feature_columns, fill_value=0)
 
@@ -79,9 +78,8 @@ def preprocess(data: pd.DataFrame) -> np.ndarray:
     return X
 
 
-# ---------------------------------------------------------------------------
 # API d'inférence publique
-# ---------------------------------------------------------------------------
+
 
 def predict_single(input_data: dict) -> dict:
     """

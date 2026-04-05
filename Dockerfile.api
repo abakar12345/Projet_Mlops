@@ -9,7 +9,7 @@ COPY src/ ./src/
 COPY data/ ./data/
 COPY conftest.py .
 
-# Copie les artefacts générés par train.py
+
 COPY src/mlops_tp/artifacts/ ./artifacts/
 
 

@@ -32,7 +32,7 @@ N_ESTIMATORS = 100
 MAX_DEPTH    = 10
 RANDOM_STATE = 42
 CLASS_WEIGHT = "balanced"
-TEST_SIZE    = 0.30   # proportion val+test
+TEST_SIZE    = 0.30   
 
 
 df = pd.read_csv(DATASET_PATH)
@@ -97,10 +97,10 @@ X_train_scaled = scaler.fit_transform(X_train)
 X_val_scaled   = scaler.transform(X_val)
 X_test_scaled  = scaler.transform(X_test)
 
-print("Prétraitement terminé ✓")
+print("Prétraitement terminé ")
 
 
-#  Lit depuis config.py qui lit depuis l'env
+
 from .config import MLFLOW_TRACKING_URI
 mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)  
 
@@ -108,7 +108,7 @@ mlflow.set_experiment("churn-prediction")
 
 with mlflow.start_run():
 
-    # 1. LOG PARAMÈTRES
+    
     mlflow.log_param("model_type",    "RandomForestClassifier")
     mlflow.log_param("n_estimators",  N_ESTIMATORS)
     mlflow.log_param("max_depth",     MAX_DEPTH)
@@ -118,7 +118,7 @@ with mlflow.start_run():
     mlflow.log_param("n_features",    X_train_scaled.shape[1])
 
     
-    # 2. ENTRAÎNEMENT
+   
 
     rf = RandomForestClassifier(
         n_estimators=N_ESTIMATORS,
@@ -129,7 +129,7 @@ with mlflow.start_run():
     rf.fit(X_train_scaled, y_train)
 
 
-    # 3. MÉTRIQUE
+   
 
     y_pred_val  = rf.predict(X_val_scaled)
     y_proba_val = rf.predict_proba(X_val_scaled)[:, 1]
@@ -146,9 +146,8 @@ with mlflow.start_run():
     mlflow.log_metric("f1_score", round(f1, 4))
     mlflow.log_metric("roc_auc",  round(roc_auc, 4))
 
-    # ------------------------------------------
-    # 4. ARTEFACT — matrice de confusion
-    # ------------------------------------------
+    
+    # matrice de confusion
     cm = confusion_matrix(y_val, y_pred_val)
     fig, ax = plt.subplots(figsize=(5, 4))
     sns.heatmap(
@@ -165,9 +164,9 @@ with mlflow.start_run():
     plt.close()
     mlflow.log_artifact(cm_path, artifact_path="figures")
 
-    # ------------------------------------------
-    # 5. ARTEFACT — courbe ROC
-    # ------------------------------------------
+  
+    # courbe ROC
+  
     fig, ax = plt.subplots(figsize=(5, 4))
     RocCurveDisplay.from_predictions(y_val, y_proba_val, ax=ax, name="RandomForest")
     ax.set_title("Courbe ROC")
@@ -177,21 +176,20 @@ with mlflow.start_run():
     plt.close()
     mlflow.log_artifact(roc_path, artifact_path="figures")
 
-    # ------------------------------------------
-    # 6. ARTEFACT — feature_schema.json
-    # ------------------------------------------
+
+    # feature_schema.json
+
     mlflow.log_artifact(str(FEATURE_SCHEMA_PATH), artifact_path="schema")
 
-    # ------------------------------------------
-    # 7. SAUVEGARDE MODÈLE via MLflow
-    # ------------------------------------------
+    
+    # SAUVEGARDE MODÈLE via MLflow
+    
     mlflow.sklearn.log_model(rf, "model")
 
-    print("MLflow run enregistré ✓")
+    print("MLflow run enregistré ")
 
-# ==========================================
+
 # SAUVEGARDE LOCALE 
-# ==========================================
 pipeline = {
     "scaler":          scaler,
     "encoder_gender":  le,
@@ -201,9 +199,7 @@ pipeline = {
 ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
 joblib.dump(pipeline, MODEL_PATH)
 
-# ==========================================
 # SAUVEGARDE metrics.json 
-# ==========================================
 metrics_history = {
     "runs": [
         {
@@ -227,9 +223,9 @@ metrics_history = {
 with open(METRICS_PATH, "w") as f:
     json.dump(metrics_history, f, indent=4)
 
-# ==========================================
-# SAUVEGARDE feature_schema.json (inchangée)
-# ==========================================
+
+# SAUVEGARDE feature_schema.json 
+
 feature_schema = {
     "features_originales": {
         "CreditScore":       {"type": "int",   "description": "Score de crédit du client"},

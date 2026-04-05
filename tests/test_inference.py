@@ -2,11 +2,11 @@ import pytest
 import numpy as np
 import joblib
 from sklearn.ensemble import RandomForestClassifier
-from src.mlops_tp.config import MODEL_PATH  # <-- chemin portable
+from src.mlops_tp.config import MODEL_PATH  
 
-# ============================================================
-# FIXTURE : pipeline + exemple de données
-# ============================================================
+
+# pipeline + exemple de données
+
 @pytest.fixture(scope="module")
 def trained_pipeline():
     """Charge le pipeline sauvegardé via config.py"""
@@ -23,9 +23,9 @@ def sample_input(trained_pipeline):
     return X_sample
 
 
-# ============================================================
+
 # TEST 1 : predict renvoie bien une classe connue (0 ou 1)
-# ============================================================
+
 def test_predict_returns_known_class(trained_pipeline, sample_input):
     model = trained_pipeline["model"]
     prediction = model.predict(sample_input)
@@ -34,9 +34,9 @@ def test_predict_returns_known_class(trained_pipeline, sample_input):
     assert prediction[0] in [0, 1], f"Classe inconnue : {prediction[0]} (attendu 0 ou 1)"
 
 
-# ============================================================
+
 # TEST 2 : predict_proba renvoie des valeurs entre 0 et 1
-# ============================================================
+
 def test_predict_proba_between_0_and_1(trained_pipeline, sample_input):
     model = trained_pipeline["model"]
     proba = model.predict_proba(sample_input)
@@ -45,9 +45,9 @@ def test_predict_proba_between_0_and_1(trained_pipeline, sample_input):
     assert np.all(proba >= 0) and np.all(proba <= 1), "Les probabilités doivent être entre 0 et 1"
 
 
-# ============================================================
+
 # TEST 3 : les probabilités somment à 1
-# ============================================================
+
 def test_predict_proba_sums_to_1(trained_pipeline, sample_input):
     model = trained_pipeline["model"]
     proba = model.predict_proba(sample_input)
@@ -56,9 +56,9 @@ def test_predict_proba_sums_to_1(trained_pipeline, sample_input):
     assert abs(total - 1.0) < 1e-6, f"Les probas doivent sommer à 1, obtenu {total}"
 
 
-# ============================================================
+
 # TEST 4 : predict est cohérent avec predict_proba
-# ============================================================
+
 def test_predict_consistent_with_proba(trained_pipeline, sample_input):
     model = trained_pipeline["model"]
     prediction = model.predict(sample_input)[0]
@@ -68,9 +68,9 @@ def test_predict_consistent_with_proba(trained_pipeline, sample_input):
     assert prediction == classe_proba, f"predict ({prediction}) incohérent avec predict_proba ({classe_proba})"
 
 
-# ============================================================
+
 # TEST 5 : le modèle gère un batch de plusieurs observations
-# ============================================================
+
 def test_predict_batch(trained_pipeline):
     model           = trained_pipeline["model"]
     feature_columns = trained_pipeline["feature_columns"]

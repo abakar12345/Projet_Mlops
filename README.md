@@ -1,4 +1,4 @@
-# Churn Prediction — MLOps
+# Churn Prediction - MLOps
 
 Projet réalisé dans le cadre du cours IA et Génie Logiciel MLOps.
 L'objectif est d'industrialiser un modèle de prédiction de churn bancaire :
@@ -19,21 +19,31 @@ Le dataset est déséquilibré (~80% / 20%), ce qui justifie l'utilisation du
 
 ## Structure du projet
 ```
+Voici une version épurée pour le README — sans les `__pycache__`, mlartifacts, postman et fichiers générés :
+
+```
 TP_MLOps/
-├── data/                        # Dataset CSV
+├── data/
+│   └── Customer-Churn-Records.csv
 ├── src/mlops_tp/
-│   ├── config.py                # Chemins centralisés via variables d'env
-│   ├── train.py                 # Entraînement + tracking MLflow
-│   ├── api.py                   # API FastAPI
-│   ├── inference.py             # Prétraitement et prédiction
-│   ├── eda_profiling.py         # Rapport YData
-│   └── artifacts/               # Modèle, métriques, schéma
-├── tests/                       # Tests pytest
-├── app_streamlit.py             # Dashboard interactif
+│   ├── config.py          # Chemins centralisés
+│   ├── train.py           # Entraînement + MLflow
+│   ├── api.py             # API FastAPI
+│   ├── inference.py       # Prétraitement + prédiction
+│   ├── eda_profiling.py   # Rapport YData
+│   └── artifacts/         # Modèle, métriques, schéma
+├── tests/
+│   ├── test_api.py
+│   ├── test_training.py
+│   └── test_inference.py
+├── app_streamlit.py
+├── conftest.py
 ├── Dockerfile.api
 ├── Dockerfile.streamlit
 ├── docker-compose.yml
-└── .github/workflows/ci.yml     # Pipeline CI/CD
+├── requirements.txt
+└── .github/workflows/
+    └── ci.yml             # Pipeline CI/CD
 ```
 
 ---

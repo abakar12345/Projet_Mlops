@@ -1,4 +1,3 @@
-# conftest.py  ← à créer à la racine /home/abakar/TP_MLOps/
 import sys
 from pathlib import Path
 

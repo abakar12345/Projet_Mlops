@@ -3,16 +3,15 @@ from fastapi.testclient import TestClient
 import sys
 import os
 
-# Ajouter src/ au path pour trouver le module
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from mlops_tp.api import app
 
 client = TestClient(app)
 
-# ============================================================
+
 # DONNÉES DE TEST
-# ============================================================
+
 valid_payload = {
     "features": {
         "CreditScore": 600,
@@ -31,9 +30,9 @@ valid_payload = {
     }
 }
 
-# ============================================================
+
 # TESTS /health
-# ============================================================
+
 def test_health_status_200():
     response = client.get("/health")
     assert response.status_code == 200
@@ -49,9 +48,9 @@ def test_health_model_loaded():
     response = client.get("/health")
     assert response.json()["model_loaded"] is True
 
-# ============================================================
+
 # TESTS /metadata
-# ============================================================
+
 def test_metadata_status_200():
     response = client.get("/metadata")
     assert response.status_code == 200
@@ -67,9 +66,9 @@ def test_metadata_task_is_classification():
     response = client.get("/metadata")
     assert response.json()["task"] == "classification"
 
-# ============================================================
-# TESTS /predict — Succès (200)
-# ============================================================
+
+# TESTS /predict - Succès (200)
+
 def test_predict_status_200():
     response = client.post("/predict", json=valid_payload)
     assert response.status_code == 200
@@ -106,9 +105,9 @@ def test_predict_latency_is_positive():
     response = client.post("/predict", json=valid_payload)
     assert response.json()["latency_ms"] > 0
 
-# ============================================================
-# TESTS /predict — Erreurs (422)
-# ============================================================
+
+# TESTS /predict - Erreurs (422)
+
 def test_predict_missing_feature_returns_422():
     """Une variable manquante doit retourner 422."""
     payload = {"features": {"CreditScore": 600}}  # incomplet

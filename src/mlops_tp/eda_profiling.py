@@ -2,9 +2,8 @@ import pandas as pd
 from ydata_profiling import ProfileReport
 from pathlib import Path
 
-# ============================================================
 # CHEMINS PROJET
-# ============================================================
+
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 DATA_PATH = BASE_DIR / "data" / "Customer-Churn-Records.csv"
 REPORT_PATH = BASE_DIR / "reports" / "eda_report.html"
@@ -16,7 +15,7 @@ try:
     print("Chargement du dataset...")
     df = pd.read_csv(DATA_PATH)
 
-    # Nettoyage basique
+    # Nettoyage 
     cols_to_drop = ['RowNumber', 'CustomerId', 'Surname']
     df.drop(columns=[c for c in cols_to_drop if c in df.columns], inplace=True)
 

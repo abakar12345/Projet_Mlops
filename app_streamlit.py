@@ -15,9 +15,9 @@ from src.mlops_tp.config import (
     REPORTS_DIR
 )
 
-# ── CONFIG ────────────────────────────────────────────────
+
 st.set_page_config(
-    page_title="ChurnGuard — Prédiction de churn",
+    page_title="Churn - Prédiction de churn",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -26,7 +26,7 @@ API_URL     = os.getenv("API_URL", "http://churn-api:8000")
 DATA_PATH   = DATASET_PATH
 REPORT_PATH = REPORTS_DIR / "eda_report.html"
 
-# ── STYLE GLOBAL ──────────────────────────────────────────
+# STYLE GLOBAL DE la page
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
@@ -136,7 +136,7 @@ div[role="radiogroup"] label:hover { background: #243158; }
 """, unsafe_allow_html=True)
 
 
-# ── DONNÉES ───────────────────────────────────────────────
+# DONNÉES 
 @st.cache_data
 def load_data():
     df = pd.read_csv(DATA_PATH)
@@ -156,15 +156,15 @@ df      = load_data()
 metrics = load_metrics()
 
 
-# ── SIDEBAR ───────────────────────────────────────────────
+
 with st.sidebar:
-    st.markdown("## 🏦 ChurnGuard")
+    st.markdown("##  Churn")
     st.markdown("<hr>", unsafe_allow_html=True)
     page = st.radio("Navigation", [
         "Vue générale",
         "Métriques du modèle",
         "Prédiction live",
-        "Rapport EDA"
+        "Analyse Explortoire"
     ], label_visibility="collapsed")
     st.markdown("<hr>", unsafe_allow_html=True)
     st.markdown("""
@@ -176,9 +176,8 @@ with st.sidebar:
     """, unsafe_allow_html=True)
 
 
-# ══════════════════════════════════════════════════════════
-# PAGE 1 — VUE GÉNÉRALE
-# ══════════════════════════════════════════════════════════
+
+# PAGE 1 - VUE GÉNÉRALE
 if page == "Vue générale":
     st.markdown("# Vue générale")
     st.markdown("### Dataset — Customer Churn Records")
@@ -241,9 +240,9 @@ if page == "Vue générale":
         col.plotly_chart(fig, use_container_width=True)
 
 
-# ══════════════════════════════════════════════════════════
-# PAGE 2 — MÉTRIQUES DU MODÈLE
-# ══════════════════════════════════════════════════════════
+
+# PAGE 2 - MÉTRIQUES DU MODÈLE
+
 elif page == "Métriques du modèle":
     st.markdown("# Métriques du modèle")
     st.markdown("<hr>", unsafe_allow_html=True)
@@ -317,9 +316,8 @@ elif page == "Métriques du modèle":
         """, unsafe_allow_html=True)
 
 
-# ══════════════════════════════════════════════════════════
-# PAGE 3 — PRÉDICTION LIVE
-# ══════════════════════════════════════════════════════════
+
+# PAGE 3 — PRÉDICTION en LIVE
 elif page == "Prédiction live":
     st.markdown("# Prédiction live")
     st.markdown("<hr>", unsafe_allow_html=True)
@@ -448,11 +446,11 @@ elif page == "Prédiction live":
         st.plotly_chart(fig, use_container_width=True)
 
 
-# ══════════════════════════════════════════════════════════
+
 # PAGE 4 — RAPPORT EDA
-# ══════════════════════════════════════════════════════════
-elif page == "Rapport EDA":
-    st.markdown("# Analyse EDA")
+
+elif page == "Analyse Explortoire":
+    st.markdown("# Analyse Explortoire")
     st.markdown("<hr>", unsafe_allow_html=True)
 
     if REPORT_PATH.exists():

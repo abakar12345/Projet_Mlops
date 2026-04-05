@@ -1,4 +1,4 @@
-# Environnement virtuel
+
 .venv/
 .venv311/
 
@@ -8,10 +8,10 @@ __pycache__/
 *.pyo
 *.egg-info/
 
-# Pytest
+
 .pytest_cache/
 
-# Variables d'environnement — NE JAMAIS commiter
+# Variables d'environnement 
 .env
 .env.*
 
@@ -22,10 +22,10 @@ mlartifacts/
 
 
 
-# Jupyter
+
 .ipynb_checkpoints/
 
-# IDE
+
 .vscode/
 .idea/
 

@@ -9,9 +9,7 @@ from datetime import datetime
 from pathlib import Path
 from fastapi.responses import HTMLResponse
 
-# ============================================================
-# CHEMINS
-# ============================================================
+
 from .config import ARTIFACTS_DIR, MODEL_PATH, METRICS_PATH, FEATURE_SCHEMA_PATH
 
 
@@ -45,9 +43,9 @@ except FileNotFoundError as e:
     schema       = {"features_originales": {}, "features_exclues": [], "n_features": 0}
     print(f"  Artefact manquant : {e}")
 
-# ============================================================
+
 # APPLICATION FASTAPI
-# ============================================================
+
 app = FastAPI(
     title="Churn Prediction API",
     description="API de prédiction de churn bancaire",
@@ -61,9 +59,9 @@ def root():
         "docs": "/docs",
         "health": "/health"
     }
-# ============================================================
+
 # SCHÉMAS DE REQUÊTE
-# ============================================================
+
 class PredictRequest(BaseModel):
     features: dict
 
@@ -89,14 +87,10 @@ class BatchPredictRequest(BaseModel):
         return customers
 
 
-# ============================================================
+
 # FONCTION DE PRÉTRAITEMENT (partagée predict + batch)
-# ============================================================
+
 def _preprocess(features: dict) -> np.ndarray:
-    """
-    Reproduit exactement le prétraitement de train.py :
-    encodage Gender → get_dummies → reindex → StandardScaler.
-    """
     schema_orig = schema["features_originales"]
 
     for col, meta in schema_orig.items():
@@ -134,10 +128,7 @@ def _preprocess(features: dict) -> np.ndarray:
 
 
 def _preprocess_batch(customers: list[dict]) -> np.ndarray:
-    """
-    Prétraitement vectorisé pour un batch de clients.
-    Valide chaque ligne individuellement puis transforme en bloc.
-    """
+    
     schema_orig = schema["features_originales"]
     rows = []
 
@@ -179,9 +170,9 @@ def _preprocess_batch(customers: list[dict]) -> np.ndarray:
     return scaler.transform(df)
 
 
-# ============================================================
+
 # GET /health
-# ============================================================
+
 @app.get("/health")
 def health():
     return {
@@ -194,9 +185,9 @@ def health():
 
 
 
-# ============================================================
+
 # GET /metadata
-# ============================================================
+
 @app.get("/metadata")
 def metadata():
     last_run = metrics_data["runs"][-1]
@@ -216,18 +207,18 @@ def metadata():
     }
 
 
-# ============================================================
-# GET /schema  — AJOUT
-# ============================================================
+
+# GET /schema  
+
 @app.get("/schema")
 def get_schema():
     """Retourne le schéma complet des features (utile pour le frontend Streamlit)."""
     return schema
 
 
-# ============================================================
-# GET /predict — Formulaire HTML
-# ============================================================
+
+# GET /predict - Formulaire HTML
+
 @app.get("/predict", response_class=HTMLResponse)
 def predict_form():
     return """
@@ -403,7 +394,7 @@ document.getElementById('predictForm').addEventListener('submit', async function
         result.style.display = 'block';
         result.innerHTML = `
             <div class="result-title">
-                ${isChurn ? '⚠️ Ce client risque de quitter la banque' : '✅ Ce client va probablement rester'}
+                ${isChurn ? ' Ce client risque de quitter la banque' : ' Ce client va probablement rester'}
             </div>
             <div>Probabilité de churn : <strong>${probaChurn}%</strong></div>
             <div class="proba-bar"><div class="proba-fill proba-fill-yes" style="width:${probaChurn}%"></div></div>
@@ -423,9 +414,8 @@ document.getElementById('predictForm').addEventListener('submit', async function
 """
 
 
-# ============================================================
-# POST /predict  — inchangé dans son comportement
-# ============================================================
+
+# POST /predict  
 @app.post("/predict")
 def predict(request: PredictRequest):
     start = time.time()
@@ -454,9 +444,9 @@ def predict(request: PredictRequest):
         raise HTTPException(status_code=500, detail=f"Erreur interne : {str(e)}")
 
 
-# ============================================================
-# POST /predict/batch  — AJOUT
-# ============================================================
+
+# POST /predict/batch  
+
 @app.post("/predict/batch")
 def predict_batch(request: BatchPredictRequest):
     """
@@ -466,7 +456,7 @@ def predict_batch(request: BatchPredictRequest):
     plus un résumé global (nb churn détectés, latence totale).
     """
     start = time.time()
-    if pipeline is None:  # ← AJOUTE CES 2 LIGNES
+    if pipeline is None:  
         raise HTTPException(status_code=503, detail="Modèle non chargé — lance train.py d'abord")
     
     try:

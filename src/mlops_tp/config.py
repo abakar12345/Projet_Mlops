@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-# Racine — configurable via variable d'environnement
+# Racine - configurable via variable d'environnement
 BASE_DIR      = Path(os.getenv("APP_BASE_DIR", Path(__file__).resolve().parents[2]))
 
 # Dossiers
